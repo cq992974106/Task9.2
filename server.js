@@ -9,7 +9,6 @@ const https = require("https")
 var crypto = require("crypto");
 var path = require('path')
 const passport = require('passport')
-const passportLocalMongoose = require('passport-local-mongoose')
 const session = require('express-session')
 var LocalStrategy = require('passport-local').Strategy;
 var nodemailer = require("nodemailer");
