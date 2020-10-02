@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700">
+<link rel='stylesheet' type='text/css' media='screen' href='CSS/main.css'>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script> 
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+</head>
+<body>
+
+  <button type="button" class="float-right btn btn-outline-primary" name="refresh" id="refresh" onclick="refresh()"> refresh  </button>
+  <button type="button" class="float-right btn btn-outline-primary" name="automatic" id="automatic" onclick="changeMode(id)"> Automatic operation</button>
+  <button type="button" class="float-right btn btn-outline-primary" name="manual" id="manual" onclick="changeMode(id)"> Manual operation </button>
+  <button type="button" class="float-left btn btn-outline-primary" name="back" id="back" onclick="back()"> back  </button>
+  <div align="center"><h1 id="area">area1</h1>
+  </div>
+  <div align="center"><h4 >click the light to switch it</h4>
+  </div>
+    <div align="center">
+    <table><tr>
+      <td> <h5>location1:</h5><img src="/public/images/image1.png" width="100" height="100" id="light1" onclick="Switch(id)"/></td>
+      <td> <h5>location2:</h5><img src="/public/images/image1.png" width="100" height="100" id="light2" onclick="Switch(id)"/></td>
+    </tr>
+    </table>
+    <table><tr>
+      <td> <h5>location3:</h5><img src="/public/images/image1.png" width="100" height="100" id="light3" onclick="Switch(id)"/></td>
+      <td> <h5>location4:</h5><img src="/public/images/image1.png" width="100" height="100" id="light4" onclick="Switch(id)"/></td>
+    </tr>
+    </table>
+    <table><tr>
+      <td> <h5>location5:</h5><img src="/public/images/image1.png" width="100" height="100" id="light5" onclick="Switch(id)"/></td>
+      <td> <h5>location6:</h5><img src="/public/images/image1.png" width="100" height="100" id="light6" onclick="Switch(id)"/></td>
+    </tr>
+    </table>
+    <table><tr>
+      <td> <h5>location7:</h5><img src="/public/images/image1.png" width="100" height="100" id="light7" onclick="Switch(id)"/></td>
+      <td> <h5>location8:</h5><img src="/public/images/image1.png" width="100" height="100" id="light8" onclick="Switch(id)"/></td>
+    </tr>
+    </table>
+    <table><tr>
+      <td> <h5>location9:</h5><img src="/public/images/image1.png" width="100" height="100" id="light9" onclick="Switch(id)"/></td>
+      <td> <h5>location10:</h5><img src="/public/images/image1.png" width="100" height="100" id="light10" onclick="Switch(id)"/></td>
+    </tr>
+    </table>
+
+</div>>
+   
+</body>
+</html>
+<script type="text/javascript">
+refresh();
+setInterval(refresh, 10000);
+function Switch(id)
+{
+  var area=document.getElementById('area').innerText;
+  $.ajax({
+       url: '/controlSystem/lightMonitoring',
+       type: 'post',
+       dataType: 'json',
+       data: {id:id,area:area},
+       success: function (data) {
+         console.log(data)
+         var err_code = data.err_code;
+
+         if (err_code === 1) {
+          var img = document.getElementById(id);
+            img.src = "/public/images/image2.png";
+           //window.alert('Turn on the light')
+         }else if (err_code === 2) {
+          var img = document.getElementById(id);
+            img.src = "/public/images/image1.png";
+           //window.alert('Turn off the light')
+         }
+         else if (err_code === 3) {
+          // window.alert('light not found');
+         }
+         else if(err_code === 500){
+          // window.alert('server err')
+         }
+       }
+     })
+     
+}
+
+function refresh()
+{
+  for(var i=0;i<2;i++){
+  for(var j=0;j<10;j++){
+    var id = "light"+ (j+1);
+    Switch(id);
+  }
+}
+}
+
+function back(){
+
+  window.location.href="/controlSystem";
+}
+
+function changeMode(mode){
+  var area=document.getElementById('area').innerText;
+  $.ajax({
+       url: '/controlSystem/changeMode',
+       type: 'post',
+       dataType: 'json',
+       data: {area:area,mode:mode},
+       success: function (data) {
+         console.log(data)
+         var err_code = data.err_code;
+
+         if (err_code === 1) {
+
+           window.alert('change the mode successfully')
+         }
+         else if (err_code === 3) {
+           window.alert('light not found');
+         }
+         else if(err_code === 500){
+           window.alert('server err')
+         }
+       }
+     })
+     
+}
+
+</script>
