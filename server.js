@@ -244,7 +244,7 @@ app.post('/forgetPwd', function (req, res){
     secure: true, // use SSL
     auth: {
     user: '992974106@qq.com',
-    pass: 'djzwqsmcfdlvbeji'
+    pass: 'texyxgartukdbebf'
     }
     });
     
@@ -252,9 +252,9 @@ app.post('/forgetPwd', function (req, res){
     　　from: "992974106@qq.com",
     　　to: email,
     　　subject: "controlSystem password reset",
-    　　html:"<h1>Hi,"+email+"</h1><br> <p>click <a href='https://task6-3.herokuapp.com/'>here</a> to reset your password</p>"
+    　　html:"<h1>Hi,"+email+"</h1><br> <p>click <a href='https://sit-314.herokuapp.com/forgetPwd/resetPwd'>here</a> to reset your password</p>"
     }
-    //https://task6-3.herokuapp.com/  http://localhost:5000/
+   // https://sit-314.herokuapp.com/ http://localhost:5000/
     smtpTransport.sendMail(mailOptions, function(err, resp){
       　　if(err){
       　　　　console.log(err)
@@ -332,6 +332,7 @@ app.post('/controlSystem/lightMonitoring', function (req, res){
     (err)=>{
       if (err) {res.send(err)}
       else {
+        turnOnLight();
         return res.status(200).json({
           err_code: 1,
           message: 'switch successfully'
@@ -346,6 +347,7 @@ app.post('/controlSystem/lightMonitoring', function (req, res){
     (err)=>{
       if (err) {res.send(err)}
       else {
+        turnOffLight();
         return res.status(200).json({
           err_code: 2,
           message: 'switch successfully'
@@ -393,6 +395,18 @@ app.post('/controlSystem/changeMode', function (req, res){
 
       })
 })
+
+function turnOnLight()
+{
+  //an api
+  //turn on the light
+}
+
+function turnOffLight(){
+  //an api
+  //turn off the light
+}
+
 
 var topic="/light";
 client.on('connect', () =>
